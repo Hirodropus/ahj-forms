@@ -4,19 +4,16 @@ on:
   push:
     branches: [ main ]
 
-# Даём разрешения для деплоя
 permissions:
   contents: read
   pages: write
   id-token: write
 
-# Запрещаем параллельные деплои
 concurrency:
   group: pages
   cancel-in-progress: true
 
 jobs:
-  # Сборка
   build:
     runs-on: ubuntu-latest
     steps:
@@ -31,15 +28,14 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
-      - name: Build
+      - name: Build project
         run: npm run build
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: dist   # папка со собранным сайтом
+          path: dist
 
-  # Деплой
   deploy:
     environment:
       name: github-pages
